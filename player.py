@@ -64,12 +64,22 @@ class Player(Character):
         for i, bullet in enumerate(self.bullets_list):
             if bullet.hit:
                 self.bullets_list.pop(i)
+            if self.bullet_hit_enemy(bullet):
+                self.bullets_list.pop(i)
             bullet.update()
     
     
+    def bullet_hit_enemy(self, bullet):
+        for enemy in self.game.enemys.enemys_list:
+            if enemy.collide_circle(bullet.position(), 0.1):
+                enemy.got_hit()
+                return True
+        return False
+    
+    
     def draw(self):
-        for bullet in self.bullets_list:
-            bullet.draw()
+        # for bullet in self.bullets_list:
+        #     bullet.draw()
         pg.draw.line(self.game.screen, 'white', 
                      self.position_on_map(self.position()), 
                      self.position_on_map(self.get_weapon_position()), 

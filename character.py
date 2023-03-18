@@ -15,14 +15,11 @@ class Character:
         self.radius = radius
         
         self.dx, self.dy = (0, 0)
-        self.angle = 0
-        self.sin_a = math.sin(self.angle)
-        self.cos_a = math.cos(self.angle)
+        self.sin_a = math.sin(0)
+        self.cos_a = math.cos(0)
         
     
     def update(self):
-        self.sin_a = math.sin(self.angle)
-        self.cos_a = math.cos(self.angle)
         self.check_events()
     
     
@@ -38,6 +35,12 @@ class Character:
     
     
     def draw(self):
+        for bullet in self.bullets_list:
+            bullet.draw()
+        # pg.draw.line(self.game.screen, 'white', 
+        #              self.position_on_map(self.position()), 
+        #              self.position_on_map(self.get_weapon_position()), 
+        #              5)
         pg.draw.circle(self.game.screen, self.color, 
                        self.position_on_map(self.position()), 
                        self.radius)
@@ -55,3 +58,5 @@ class Character:
         return pos_pixels[0] / self.game.map.cell_width, pos_pixels[1] / self.game.map.cell_height
     
     
+    def get_hypotenuse(self, dx, dy):
+        return math.sqrt(dx*dx + dy*dy)

@@ -11,7 +11,6 @@ class Bullet:
         self.x, self.y = self.player.get_weapon_position()
         self.hit = False
         
-        self.angle = self.player.angle
         self.sin_a = self.player.sin_a
         self.cos_a = self.player.cos_a
         
