@@ -11,3 +11,5 @@ PLAYER_FIRE_RATE = 150                  # [ms]
 
 BULLET_RADIUS = 4
 BULLET_SPEED = 0.008
+
+ENEMYS_NUMBER = 2

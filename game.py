@@ -4,6 +4,7 @@ import sys
 from settings import *
 from map import Map
 from player import Player
+from enemy import Enemys
 
 
 class Game:
@@ -18,6 +19,7 @@ class Game:
     def new_game(self):
         self.map = Map(self)
         self.player = Player(self)
+        self.enemys = Enemys(self)
     
     
     def update(self):
@@ -26,12 +28,14 @@ class Game:
         pg.display.set_caption(f'2D TOP SHOOTER - fps:{self.clock.get_fps() :.1f}')
         
         self.player.update()
+        self.enemys.update()
     
     
     def draw(self):
         self.screen.fill('black')
         self.map.draw()
         self.player.draw()
+        self.enemys.draw()
     
     
     def check_events(self):

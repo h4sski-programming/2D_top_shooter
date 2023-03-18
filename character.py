@@ -38,7 +38,7 @@ class Character:
     
     
     def draw(self):
-        pg.draw.circle(self.game.screen, 'orange', 
+        pg.draw.circle(self.game.screen, self.color, 
                        self.position_on_map(self.position()), 
                        self.radius)
         
