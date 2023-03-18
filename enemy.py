@@ -85,7 +85,6 @@ class Enemys:
     def update(self):
         while len(self.enemys_list) <= self.enemys_number:
             rand_spawn = random.randint(0, len(self.spawns) - 1)
-            print(rand_spawn)
             self.enemys_list.append(Enemy_One(self.game, self.spawns[rand_spawn]))
     
     

@@ -1,5 +1,5 @@
 import pygame as pg
-
+import math
 
 from settings import *
 from character import Character
@@ -21,8 +21,10 @@ class Player(Character):
         self.dy = 0
         speed = self.speed * self.game.delta_time
         
-        # moving
         keys = pg.key.get_pressed()
+        mouse = pg.mouse
+        
+        # moving
         if keys[pg.K_w]:
             self.dy += -speed
         if keys[pg.K_s]:
@@ -33,14 +35,22 @@ class Player(Character):
             self.dx += speed
         self.check_wall_colision(self.dx, self.dy)
         
-        # turning
-        if keys[pg.K_LEFT]:
-            self.angle -= PLAYER_ROTATION_SPEED * self.game.delta_time
-        if keys[pg.K_RIGHT]:
-            self.angle += PLAYER_ROTATION_SPEED * self.game.delta_time
+        # turning with keys
+        # if keys[pg.K_LEFT]:
+        #     self.angle -= PLAYER_ROTATION_SPEED * self.game.delta_time
+        # if keys[pg.K_RIGHT]:
+        #     self.angle += PLAYER_ROTATION_SPEED * self.game.delta_time
 
+        # turning with mouse
+        mouse_position = self.convert_to_coordinates(mouse.get_pos())
+        mouse_dx = mouse_position[0] - self.x
+        mouse_dy = mouse_position[1] - self.y
+        c = math.sqrt(mouse_dx * mouse_dx + mouse_dy * mouse_dy)
+        self.sin_a = mouse_dy / c
+        self.cos_a = mouse_dx / c
+        
         # shooting
-        if keys[pg.K_SPACE]:
+        if keys[pg.K_SPACE] or mouse.get_pressed()[0]:
             if len(self.bullets_list) < PLAYER_BULLETS_NUMBER and \
                 pg.time.get_ticks() - self.last_time_shoot >= PLAYER_FIRE_RATE:
                 self.bullets_list.append(Bullet(self))
@@ -71,4 +81,5 @@ class Player(Character):
         weapon_x = self.x + self.cos_a * self.weapon_lenght
         weapon_y = self.y + self.sin_a * self.weapon_lenght
         return weapon_x, weapon_y
+    
     

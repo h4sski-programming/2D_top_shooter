@@ -49,3 +49,9 @@ class Character:
     
     def position_on_map(self, position):
         return position[0] * self.game.map.cell_width, position[1] * self.game.map.cell_height
+    
+    
+    def convert_to_coordinates(self, pos_pixels):
+        return pos_pixels[0] / self.game.map.cell_width, pos_pixels[1] / self.game.map.cell_height
+    
+    
