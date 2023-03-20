@@ -71,7 +71,7 @@ class Player(Character):
     
     def bullet_hit_enemy(self, bullet):
         for enemy in self.game.enemys.enemys_list:
-            if enemy.collide_circle(bullet.position(), 0.1):
+            if enemy.collide_circle(bullet.position(), self.radius / self.game.map.cell_width):
                 enemy.got_hit()
                 return True
         return False

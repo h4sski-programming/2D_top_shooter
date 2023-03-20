@@ -40,6 +40,14 @@ class Map:
                     self.map_dict[(i, j)] = value
     
     
+    def is_wall(self, position):
+        # if False:
+        if self.map_dict.get(position):
+            print(position)
+            return True
+        return False
+    
+    
     def draw(self):
         for position in self.map_dict:
             pg.draw.rect(self.game.screen, 'darkgray', 

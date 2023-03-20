@@ -44,13 +44,12 @@ class Enemy(Character):
         dx = position[0] - self.x
         dy = position[1] - self.y
         c = self.get_hypotenuse(dx, dy)
-        if c <= self.radius + radius:
+        if c <= self.radius / self.game.map.cell_width + radius:
             return True
         return False
     
     def got_hit(self):
         self.hp -= 1
-        print(f'Got hitted')
     
     
     def can_see_player(self):
@@ -105,23 +104,34 @@ class Enemys:
         self.game = game
         self.enemys_number = ENEMYS_NUMBER
         self.enemys_list = []
-        self.spawns = {0: (8.5, 2.5),
-                       1: (10.5, 10.5),
-                       2: (18.5, 1.5),
-                       3: (13.5, 1.5),
-                       4: (19.5, 10.5),
-                       5: (1.5, 10.5),
-                       }
+        # self.spawns = {0: (8.5, 2.5),
+        #                1: (10.5, 10.5),
+        #                2: (18.5, 1.5),
+        #                3: (13.5, 1.5),
+        #                4: (19.5, 10.5),
+        #                5: (1.5, 10.5),
+        #                }
     
     def update(self):
         while len(self.enemys_list) <= self.enemys_number:
-            rand_spawn = random.randint(0, len(self.spawns) - 1)
-            self.enemys_list.append(Enemy_One(self.game, self.spawns[rand_spawn]))
+            # rand_spawn = random.randint(0, len(self.spawns) - 1)
+            self.enemys_list.append(Enemy_One(self.game, self.get_spawn()))
+            # self.enemys_list.append(Enemy_One(self.game, self.spawns[rand_spawn]))
         
         for i, enemy in enumerate(self.enemys_list):
             enemy.update()
             if not enemy.alive:
                 self.enemys_list.pop(i)
+    
+    
+    def get_spawn(self):
+        while True:
+            rand_x = random.randint(1, len(self.game.map.mini_map[0]) - 1)
+            rand_y = random.randint(1, len(self.game.map.mini_map) - 1)
+            print(f'new coordinates {rand_x}, {rand_y}')
+            if not self.game.map.is_wall(position=(rand_x, rand_y)):
+                return (rand_x + 0.5, rand_y + 0.5)
+            print(f'incorrect coordinates {rand_x}, {rand_y}')
     
     
     def draw(self):
