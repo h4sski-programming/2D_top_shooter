@@ -37,6 +37,7 @@ class Map:
         for y, row in enumerate(self.mini_map):
             for x, value in enumerate(row):
                 if value:
+                    # self.map_dict[(x, y)] = value
                     self.map_dict[(y, x)] = value
     
     

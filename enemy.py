@@ -104,6 +104,8 @@ class Enemys:
         self.game = game
         self.enemys_number = ENEMYS_NUMBER
         self.enemys_list = []
+        self.generate_enemys_choise_list()
+        print(self.enemys_choise_list)
     
     def update(self):
         while len(self.enemys_list) <= self.enemys_number:
@@ -115,32 +117,37 @@ class Enemys:
                 self.enemys_list.pop(i)
     
     
+    def generate_enemys_choise_list(self):
+        self.enemys_choise_list = random.choices(population=[1, 2, 3],
+                                                weights=[3, 2, 1],
+                                                k=ENEMYS_NUMBER * 3)
+        random.shuffle(self.enemys_choise_list)
+        # print(self.enemys_choise_list)
+        
+    
     def select_enemy(self):
-            enemys_choise_list = random.choices(population=[1, 2, 3],
-                                                weights=[5, 2, 1])
-            chosen_enemy = random.choice(enemys_choise_list)
-            if chosen_enemy == 1:
-                return Enemy_One(self.game, self.get_spawn())
-            if chosen_enemy == 2:
-                return Enemy_Two(self.game, self.get_spawn())
-            if chosen_enemy == 3:
-                return Enemy_Tree(self.game, self.get_spawn())
+        if len(self.enemys_choise_list) < 1:
+            self.generate_enemys_choise_list()
+        chosen_enemy = self.enemys_choise_list.pop()
+        # print(self.enemys_choise_list)
+        if chosen_enemy == 1:
+            return Enemy_One(self.game, self.get_spawn())
+        if chosen_enemy == 2:
+            return Enemy_Two(self.game, self.get_spawn())
+        if chosen_enemy == 3:
+            return Enemy_Tree(self.game, self.get_spawn())
     
     
     def get_spawn(self):
         while True:
             rand_x = random.randint(1, len(self.game.map.mini_map[0]) - 2)
             rand_y = random.randint(1, len(self.game.map.mini_map) - 2)
-            # print(f'new coordinates {rand_x}, {rand_y}')
             distance_to_player = self.game.player.get_distance_to(x=rand_x, y=rand_y)
             
             if self.game.map.is_wall(position_yx=(rand_y, rand_x)) or \
                 distance_to_player <= ENEMY_MIN_DISTANCE_TO_PLAYER:
-                # print(f'incorrect coordinates {rand_x}, {rand_y}')
                 continue
             else:
-                # print(f'creating {rand_x}, {rand_y}')
-                # return (rand_x, rand_y)
                 return (rand_x + 0.5, rand_y + 0.5)
     
     
