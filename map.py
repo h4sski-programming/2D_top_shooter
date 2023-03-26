@@ -34,18 +34,18 @@ class Map:
         
     
     def get_map(self):
-        for i, row in enumerate(self.mini_map):
-            for j, value in enumerate(row):
+        for y, row in enumerate(self.mini_map):
+            for x, value in enumerate(row):
                 if value:
-                    self.map_dict[(i, j)] = value
+                    self.map_dict[(y, x)] = value
     
     
-    def is_wall(self, position):
+    def is_wall(self, position_yx):
         # if False:
-        if self.map_dict.get(position):
-            print(position)
+        if self.map_dict.get(position_yx) == 1:
             return True
-        return False
+        else:
+            return False
     
     
     def draw(self):

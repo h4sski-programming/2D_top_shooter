@@ -24,7 +24,8 @@ class Character:
     
     
     def hit_wall(self, dx, dy):
-        return (dy, dx) in self.game.map.map_dict
+        return self.game.map.is_wall(position_yx=(dy, dx))
+        # return (dy, dx) in self.game.map.map_dict
         
     
     def check_wall_colision(self, dx, dy):
@@ -59,4 +60,9 @@ class Character:
     
     
     def get_hypotenuse(self, dx, dy):
+        return math.sqrt(dx*dx + dy*dy)
+    
+    def get_distance_to(self, x, y):
+        dx = x - self.x
+        dy = y - self.y
         return math.sqrt(dx*dx + dy*dy)

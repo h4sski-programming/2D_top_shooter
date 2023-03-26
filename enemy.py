@@ -12,7 +12,7 @@ class Enemy(Character):
         super().__init__(game=game, position=position,
                        hp=hp, speed=speed,
                        color=color, radius=radius)
-        self.weapon_lenght = 2      # 0.3
+        self.weapon_lenght = 0.3
         self.bullets_list = []
         self.last_time_shoot = 0
         self.agro = False
@@ -104,19 +104,10 @@ class Enemys:
         self.game = game
         self.enemys_number = ENEMYS_NUMBER
         self.enemys_list = []
-        # self.spawns = {0: (8.5, 2.5),
-        #                1: (10.5, 10.5),
-        #                2: (18.5, 1.5),
-        #                3: (13.5, 1.5),
-        #                4: (19.5, 10.5),
-        #                5: (1.5, 10.5),
-        #                }
     
     def update(self):
         while len(self.enemys_list) <= self.enemys_number:
-            # rand_spawn = random.randint(0, len(self.spawns) - 1)
-            self.enemys_list.append(Enemy_One(self.game, self.get_spawn()))
-            # self.enemys_list.append(Enemy_One(self.game, self.spawns[rand_spawn]))
+            self.enemys_list.append(self.select_enemy())
         
         for i, enemy in enumerate(self.enemys_list):
             enemy.update()
@@ -124,14 +115,33 @@ class Enemys:
                 self.enemys_list.pop(i)
     
     
+    def select_enemy(self):
+            enemys_choise_list = random.choices(population=[1, 2, 3],
+                                                weights=[5, 2, 1])
+            chosen_enemy = random.choice(enemys_choise_list)
+            if chosen_enemy == 1:
+                return Enemy_One(self.game, self.get_spawn())
+            if chosen_enemy == 2:
+                return Enemy_Two(self.game, self.get_spawn())
+            if chosen_enemy == 3:
+                return Enemy_Tree(self.game, self.get_spawn())
+    
+    
     def get_spawn(self):
         while True:
-            rand_x = random.randint(1, len(self.game.map.mini_map[0]) - 1)
-            rand_y = random.randint(1, len(self.game.map.mini_map) - 1)
-            print(f'new coordinates {rand_x}, {rand_y}')
-            if not self.game.map.is_wall(position=(rand_x, rand_y)):
+            rand_x = random.randint(1, len(self.game.map.mini_map[0]) - 2)
+            rand_y = random.randint(1, len(self.game.map.mini_map) - 2)
+            # print(f'new coordinates {rand_x}, {rand_y}')
+            distance_to_player = self.game.player.get_distance_to(x=rand_x, y=rand_y)
+            
+            if self.game.map.is_wall(position_yx=(rand_y, rand_x)) or \
+                distance_to_player <= ENEMY_MIN_DISTANCE_TO_PLAYER:
+                # print(f'incorrect coordinates {rand_x}, {rand_y}')
+                continue
+            else:
+                # print(f'creating {rand_x}, {rand_y}')
+                # return (rand_x, rand_y)
                 return (rand_x + 0.5, rand_y + 0.5)
-            print(f'incorrect coordinates {rand_x}, {rand_y}')
     
     
     def draw(self):
@@ -152,5 +162,12 @@ class Enemy_One(Enemy):
 class Enemy_Two(Enemy):
     def __init__(self, game, position) -> None:
         super().__init__(game=game, position=position,
-                       hp=8, speed=PLAYER_SPEED,
+                       hp=8, speed=PLAYER_SPEED * 0.8,
                        color='red', radius=10, agro_dist=6)
+
+
+class Enemy_Tree(Enemy):
+    def __init__(self, game, position) -> None:
+        super().__init__(game=game, position=position,
+                       hp=11, speed=PLAYER_SPEED * 0.3,
+                       color='yellow', radius=10, agro_dist=8)

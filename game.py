@@ -20,6 +20,8 @@ class Game:
         self.map = Map(self)
         self.player = Player(self)
         self.enemys = Enemys(self)
+        # ppp = self.enemys.get_spawn()
+        # print(ppp, self.map.is_wall(ppp))
     
     
     def update(self):
