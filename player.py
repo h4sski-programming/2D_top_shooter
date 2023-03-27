@@ -60,13 +60,13 @@ class Player(Character):
     
     def update(self):
         super().update()
-        
-        for i, bullet in enumerate(self.bullets_list):
-            if bullet.hit:
-                self.bullets_list.pop(i)
-            if self.bullet_hit_enemy(bullet):
-                self.bullets_list.pop(i)
-            bullet.update()
+        if len(self.bullets_list) > 0:
+            for i, bullet in enumerate(self.bullets_list):
+                if bullet.hit:
+                    self.bullets_list.pop(i)
+                if self.bullet_hit_enemy(bullet):
+                    self.bullets_list.pop(i)
+                bullet.update()
     
     
     def bullet_hit_enemy(self, bullet):
