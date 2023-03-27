@@ -12,3 +12,5 @@ def test_is_wall():
     assert map.is_wall(position_yx=(11, 20)) == False
     assert map.is_wall(position_yx=(11, 21)) == True
     assert map.is_wall(position_yx=(12, 20)) == True
+    
+    assert map.is_wall(position_yx=(-1, -1)) == False

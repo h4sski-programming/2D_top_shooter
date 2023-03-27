@@ -66,4 +66,4 @@ class Character:
     def get_distance_to(self, x, y):
         dx = x - self.x
         dy = y - self.y
-        return math.sqrt(dx*dx + dy*dy)
+        return self.get_hypotenuse(dx, dy)

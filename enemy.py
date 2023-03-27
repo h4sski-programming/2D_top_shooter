@@ -48,6 +48,7 @@ class Enemy(Character):
             return True
         return False
     
+    
     def got_hit(self):
         self.hp -= 1
     
@@ -55,8 +56,7 @@ class Enemy(Character):
     def can_see_player(self):
         x = math.ceil(self.x)
         y = math.ceil(self.y)
-        
-    
+        pass
     
     def update(self):
         super().update()
@@ -120,7 +120,7 @@ class Enemys:
     def generate_enemys_choise_list(self):
         self.enemys_choise_list = random.choices(population=[1, 2, 3],
                                                 weights=[3, 2, 1],
-                                                k=ENEMYS_NUMBER * 3)
+                                                k=ENEMYS_NUMBER + 1)
         random.shuffle(self.enemys_choise_list)
         # print(self.enemys_choise_list)
         
@@ -178,3 +178,4 @@ class Enemy_Tree(Enemy):
         super().__init__(game=game, position=position,
                        hp=11, speed=PLAYER_SPEED * 0.3,
                        color='yellow', radius=10, agro_dist=8)
+
