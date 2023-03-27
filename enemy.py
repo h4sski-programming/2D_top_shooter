@@ -66,7 +66,7 @@ class Enemy(Character):
         x_temp = self.x
         y_temp = self.y
         while self.get_distance_to(x=x_temp, y=y_temp) < self.get_distance_to(x=self.game.player.x, y=self.game.player.y):
-            if self.game.map.is_wall(position_yx=(y_temp, x_temp)):
+            if self.game.map.is_wall(position_yx=(math.floor(y_temp), math.floor(x_temp))):
                 return False
             else:
                 x_temp += dx_local
