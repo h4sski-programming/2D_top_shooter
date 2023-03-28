@@ -54,8 +54,8 @@ class Enemy(Character):
     
     
     def can_see_player(self):
-        x = math.floor(self.x)
-        y = math.floor(self.y)
+        # x = math.floor(self.x)
+        # y = math.floor(self.y)
         
         # see diagram
         self.ctg_alpha = (self.dx) / (self.dy)
@@ -101,10 +101,10 @@ class Enemy(Character):
         self.update_dx_dy()
         self.update_sin_cos()
         
-        if self.get_distance_to(x=self.game.player.x,
-                                y=self.game.player.y) <= 4:
-            # self.agro = True
-            pass
+        # if self.get_distance_to(x=self.game.player.x,
+        #                         y=self.game.player.y) <= 4:
+        #     # self.agro = True
+        #     pass
         if not self.agro and self.can_see_player():
             self.agro = True
     
@@ -134,7 +134,7 @@ class Enemys:
         self.enemys_number = ENEMYS_NUMBER
         self.enemys_list = []
         self.generate_enemys_choise_list()
-        print(self.enemys_choise_list)
+        # print(self.enemys_choise_list)
     
     def update(self):
         while len(self.enemys_list) <= self.enemys_number:
