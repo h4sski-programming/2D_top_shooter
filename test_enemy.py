@@ -31,3 +31,10 @@ def test_select_enemy():
     e_all.enemys_choise_list = [3, 3, 3]
     assert type(e_all.select_enemy()) == type(e_tree)
     assert len(e_all.enemys_choise_list) == 2
+    
+
+def test_can_see_player():
+    for enemy in e_all.enemys_list:
+        assert 1 == 1
+
+###

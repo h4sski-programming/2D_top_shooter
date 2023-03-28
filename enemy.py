@@ -54,9 +54,37 @@ class Enemy(Character):
     
     
     def can_see_player(self):
-        x = math.ceil(self.x)
-        y = math.ceil(self.y)
-        pass
+        x = math.floor(self.x)
+        y = math.floor(self.y)
+        
+        # see diagram
+        self.ctg_alpha = (self.dx) / (self.dy)
+        
+        # checking horizontal
+        dx_local = self.dx / abs(self.dx)
+        dy_local = 1 / self.ctg_alpha
+        x_temp = self.x
+        y_temp = self.y
+        while self.get_distance_to(x=x_temp, y=y_temp) < self.get_distance_to(x=self.game.player.x, y=self.game.player.y):
+            if self.game.map.is_wall(position_yx=(math.floor(y_temp), math.floor(x_temp))):
+                return False
+            else:
+                x_temp += dx_local
+                y_temp += dy_local
+        return True
+        
+        
+    
+    def update_dx_dy(self):
+        self.dx = self.game.player.x - self.x
+        self.dy = self.game.player.y - self.y
+    
+    
+    def update_sin_cos(self):
+        c = self.get_hypotenuse(self.dx, self.dy)
+        self.sin_a = self.dy / c
+        self.cos_a = self.dx / c
+    
     
     def update(self):
         super().update()
@@ -70,13 +98,14 @@ class Enemy(Character):
         #     bullet.update()
         
         # dx and dy values towards player position
-        dx = self.game.player.x - self.x
-        dy = self.game.player.y - self.y
-        c = self.get_hypotenuse(dx, dy)
-        self.sin_a = dy / c
-        self.cos_a = dx / c
+        self.update_dx_dy()
+        self.update_sin_cos()
         
-        if c <= 4:
+        if self.get_distance_to(x=self.game.player.x,
+                                y=self.game.player.y) <= 4:
+            # self.agro = True
+            pass
+        if not self.agro and self.can_see_player():
             self.agro = True
     
     
